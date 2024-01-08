@@ -61,8 +61,8 @@ func Start(filename string) {
 		server.Close()
 		return
 	}
-
-	for i := 0; i < len(json_data); i++ {
+	length := len(json_data)
+	for i := 0; i < length; i++ {
 		_, err = conn.Write([]byte{json_data[i]})
 		if err != nil {
 			fmt.Println(color.RedString("Cannot send data: %s", err.Error()))
@@ -70,6 +70,7 @@ func Start(filename string) {
 			server.Close()
 			return
 		}
+		fmt.Printf("%.2f%% - %d/%d\n", ((float64(length) / float64((i + 1))) * 100), (i + 1), length)
 	}
 
 	fmt.Println("Data sent")

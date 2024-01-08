@@ -41,6 +41,7 @@ func Start(ip string) {
 			return
 		}
 		data_buffer[i] = byte_buff[0]
+		fmt.Printf("%.2f%% - %d/%d\n", ((float64(size) / float64((i + 1))) * 100), (i + 1), size)
 	}
 
 	var data packets.FileData_Packet
