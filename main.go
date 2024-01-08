@@ -14,6 +14,7 @@ func main() {
 	args := os.Args
 	if len(args) < 2 {
 		fmt.Println(color.RedString("Usage: <mode>"));
+		helper.Help()
 		return
 	}
 	
