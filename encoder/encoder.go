@@ -70,7 +70,7 @@ func Start(filename string) {
 			server.Close()
 			return
 		}
-		fmt.Printf("%.2f%% - %d/%d\n", ((float64(length) / float64((i + 1))) * 100), (i + 1), length)
+		fmt.Printf("%.4f%% - %d/%d\n", ((float64((i + 1)) / float64(length)) * 100), (i + 1), length)
 	}
 
 	fmt.Println("Data sent")
