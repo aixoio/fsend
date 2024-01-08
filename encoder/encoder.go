@@ -62,12 +62,14 @@ func Start(filename string) {
 		return
 	}
 
-	_, err = conn.Write(json_data)
-	if err != nil {
-		fmt.Println(color.RedString("Cannot send data: %s", err.Error()))
-		conn.Close()
-		server.Close()
-		return
+	for i := 0; i < len(json_data); i++ {
+		_, err = conn.Write([]byte{json_data[i]})
+		if err != nil {
+			fmt.Println(color.RedString("Cannot send data: %s", err.Error()))
+			conn.Close()
+			server.Close()
+			return
+		}
 	}
 
 	fmt.Println("Data sent")

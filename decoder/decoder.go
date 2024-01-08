@@ -32,11 +32,15 @@ func Start(ip string) {
 	size := binary.LittleEndian.Uint32(size_buffer)
 
 	data_buffer := make([]byte, size)
-	_, err = conn.Read(data_buffer)
-	if err != nil {
-		fmt.Println(color.RedString("Cannot read data: %s", err.Error()))
-		conn.Close()
-		return
+	byte_buff := make([]byte, 1)
+	for i := 0; i < int(size); i++ {
+		_, err = conn.Read(byte_buff)
+		if err != nil {
+			fmt.Println(color.RedString("Cannot read data: %s", err.Error()))
+			conn.Close()
+			return
+		}
+		data_buffer[i] = byte_buff[0]
 	}
 
 	var data packets.FileData_Packet
