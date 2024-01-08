@@ -1,6 +1,7 @@
 package encoder
 
 import (
+	"encoding/binary"
 	"encoding/json"
 	"fmt"
 	"net"
@@ -46,6 +47,16 @@ func Start(filename string) {
 	json_data, err := json.Marshal(packet_data)
 	if err != nil {
 		fmt.Println(color.RedString("Cannot encode data"))
+		conn.Close()
+		server.Close()
+		return
+	}
+
+	size_buff := make([]byte, 4)
+	binary.LittleEndian.PutUint32(size_buff, uint32(len(json_data)))
+	_, err = conn.Write(size_buff)
+	if err != nil {
+		fmt.Println(color.RedString("Cannot send data"))
 		conn.Close()
 		server.Close()
 		return
