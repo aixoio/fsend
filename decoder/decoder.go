@@ -24,7 +24,7 @@ func Start(ip string) {
 
 	_, err = conn.Read(size_buffer)
 	if err != nil {
-		fmt.Println(color.RedString("Cannot read data"))
+		fmt.Println(color.RedString("Cannot read data: %s", err.Error()))
 		conn.Close()
 		return
 	}
@@ -34,7 +34,7 @@ func Start(ip string) {
 	data_buffer := make([]byte, size)
 	_, err = conn.Read(data_buffer)
 	if err != nil {
-		fmt.Println(color.RedString("Cannot read data"))
+		fmt.Println(color.RedString("Cannot read data: %s", err.Error()))
 		conn.Close()
 		return
 	}
@@ -42,7 +42,7 @@ func Start(ip string) {
 	var data packets.FileData_Packet
 	err = json.Unmarshal(data_buffer, &data)
 	if err != nil {
-		fmt.Println(color.RedString("Cannot parse data"))
+		fmt.Println(color.RedString("Cannot parse data: %s", err.Error()))
 		conn.Close()
 		return
 	}

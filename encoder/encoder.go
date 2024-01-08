@@ -56,7 +56,7 @@ func Start(filename string) {
 	binary.LittleEndian.PutUint32(size_buff, uint32(len(json_data)))
 	_, err = conn.Write(size_buff)
 	if err != nil {
-		fmt.Println(color.RedString("Cannot send data"))
+		fmt.Println(color.RedString("Cannot send data: %s", err.Error()))
 		conn.Close()
 		server.Close()
 		return
@@ -64,7 +64,7 @@ func Start(filename string) {
 
 	_, err = conn.Write(json_data)
 	if err != nil {
-		fmt.Println(color.RedString("Cannot send data"))
+		fmt.Println(color.RedString("Cannot send data: %s", err.Error()))
 		conn.Close()
 		server.Close()
 		return
