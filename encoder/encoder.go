@@ -1,7 +1,9 @@
 package encoder
 
 import (
+	"encoding/json"
 	"fmt"
+	"net"
 	"os"
 
 	"github.com/aixoio/fsend/packets"
@@ -20,5 +22,43 @@ func Start(filename string) {
 		Data: filedata,
 	}
 
-	
+	server, err := net.Listen("tcp", ":2328")
+	if err != nil {
+		fmt.Println(color.RedString("Cannot start TCP/IP server"))
+		return
+	}
+
+	defer server.Close()
+
+	fmt.Println("TCP/IP server is waiting for connections...")
+
+	conn, err := server.Accept()
+	if err != nil {
+		fmt.Println(color.RedString("Cannot connect to client"))
+		server.Close()
+		return
+	}
+
+	defer conn.Close()
+
+	fmt.Println("Client connected")
+
+	json_data, err := json.Marshal(packet_data)
+	if err != nil {
+		fmt.Println(color.RedString("Cannot encode data"))
+		conn.Close()
+		server.Close()
+		return
+	}
+
+	_, err = conn.Write(json_data)
+	if err != nil {
+		fmt.Println(color.RedString("Cannot send data"))
+		conn.Close()
+		server.Close()
+		return
+	}
+
+	fmt.Println("Data sent")
+
 }
