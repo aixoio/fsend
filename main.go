@@ -37,4 +37,6 @@ func main() {
 		return
 	}
 
+	fmt.Println(color.RedString("Unknow input mode: %s", args[1]))
+
 }
